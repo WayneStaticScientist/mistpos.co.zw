@@ -1,11 +1,21 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { ArrowRight, Download, CheckCircle, Smartphone } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Download, CheckCircle, Smartphone, Bot, Search, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function Hero() {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStep((prev) => (prev + 1) % 4);
+    }, 4500); // 4.5 seconds per step
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="relative pt-40 pb-24 overflow-hidden">
       {/* Adaptive Background Blobs */}
@@ -91,6 +101,12 @@ export default function Hero() {
               </div>
               <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Offline First</span>
             </div>
+            <div className="flex items-center space-x-3 group">
+              <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Bot className="text-purple-500 w-5 h-5" />
+              </div>
+              <span className="text-sm font-bold text-muted-foreground uppercase tracking-wider">AI Powered</span>
+            </div>
           </div>
         </motion.div>
 
@@ -131,6 +147,175 @@ export default function Hero() {
                 <p className="text-[10px] uppercase font-black text-muted-foreground tracking-widest">Daily Sales</p>
                 <p className="text-2xl font-black text-foreground">842</p>
               </div>
+            </div>
+          </motion.div>
+
+          {/* Interactive POS & AI Search Widget */}
+          <motion.div 
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-20 left-1/2 -translate-x-1/2 md:-bottom-12 md:left-6 md:translate-x-0 xl:-left-20 z-30 bg-slate-950/95 backdrop-blur-xl p-6 rounded-[2.5rem] shadow-2xl border border-white/10 w-80 h-[400px] flex flex-col justify-between overflow-hidden"
+          >
+            <AnimatePresence mode="wait">
+              {(step === 0 || step === 1) && (
+                <motion.div
+                  key="pos-step"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="h-full w-full flex flex-col items-center justify-between"
+                >
+                  <div className="text-center w-full">
+                    <span className="text-[10px] uppercase font-bold text-blue-400 tracking-wider">
+                      Multipoint Print & Pay
+                    </span>
+                    <h4 className="text-sm font-bold text-white mt-1">Instant Checkout</h4>
+                  </div>
+
+                  {/* Animation Area: Card inserting and receipt printing */}
+                  <div className="relative w-full flex-grow flex flex-col items-center justify-center mt-4">
+                    {/* Receipt paper printing out */}
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={step === 1 ? { height: 90, opacity: 1 } : { height: 0, opacity: 0 }}
+                      transition={{ duration: 1.2, ease: "easeOut" }}
+                      className="w-28 bg-white text-slate-800 rounded-t-lg p-2.5 shadow-lg border border-slate-200 overflow-hidden flex flex-col space-y-1.5 z-20 absolute -top-8"
+                    >
+                      <div className="w-full flex justify-between items-center border-b border-dashed border-slate-300 pb-1">
+                        <span className="text-[7px] font-bold font-mono">MIST POS</span>
+                        <span className="text-[6px] font-mono">11/07/26</span>
+                      </div>
+                      <div className="w-full h-1 bg-slate-200 rounded" />
+                      <div className="w-12 h-1 bg-slate-200 rounded" />
+                      <div className="flex justify-between items-center text-[7px] font-mono mt-1 pt-1 border-t border-slate-200">
+                        <span>TOTAL</span>
+                        <span className="font-bold">$42.50</span>
+                      </div>
+                    </motion.div>
+
+                    {/* Card container slot */}
+                    <div className="relative w-40 h-28 flex justify-center items-end mt-12">
+                      {/* Debit Card */}
+                      <motion.div
+                        initial={{ y: -50, opacity: 0 }}
+                        animate={
+                          step === 0 
+                            ? { y: 20, opacity: 1, scale: 0.9 } 
+                            : { y: 20, opacity: 1, scale: 0.9 }
+                        }
+                        transition={{ duration: 0.8, type: "spring", stiffness: 120 }}
+                        className="w-24 h-15 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg p-2 shadow-lg flex flex-col justify-between absolute -top-8 z-0"
+                      >
+                        <div className="w-4 h-3 bg-amber-400 rounded-sm" />
+                        <div className="w-full flex justify-between items-center">
+                          <div className="text-[7px] text-white font-mono">•••• 4022</div>
+                          <div className="w-3 h-3 rounded-full bg-white/20" />
+                        </div>
+                      </motion.div>
+
+                      {/* POS terminal device body */}
+                      <div className="w-36 h-20 bg-slate-800 rounded-t-xl border border-slate-700 shadow-xl flex flex-col justify-between p-2 z-10">
+                        {/* Slot Line */}
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-1 bg-slate-950 rounded-full" />
+                        {/* Terminal Screen */}
+                        <div className="w-full h-8 bg-slate-900 rounded border border-slate-700 flex items-center justify-center px-1">
+                          <span className={`text-[8px] font-mono ${step === 1 ? "text-emerald-400 animate-pulse" : "text-blue-400"}`}>
+                            {step === 0 ? "PROCESSING CARD..." : "PAYMENT SUCCESS!"}
+                          </span>
+                        </div>
+                        {/* Keyboard */}
+                        <div className="grid grid-cols-4 gap-1 mt-1">
+                          {[...Array(8)].map((_, i) => (
+                            <div key={i} className="h-1 bg-slate-600 rounded-sm" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <span className="text-[10px] text-slate-400 mt-2">
+                    {step === 0 ? "Processing transaction..." : "Receipt printed successfully"}
+                  </span>
+                </motion.div>
+              )}
+
+              {(step === 2 || step === 3) && (
+                <motion.div
+                  key="ai-step"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="h-full w-full flex flex-col items-center justify-between"
+                >
+                  <div className="text-center w-full">
+                    <span className="text-[10px] uppercase font-bold text-purple-400 tracking-wider">
+                      SuperAdmin AI Analytics
+                    </span>
+                    <h4 className="text-sm font-bold text-white mt-1">Natural Language Queries</h4>
+                  </div>
+
+                  {/* AI Search and result lines */}
+                  <div className="w-full flex-grow flex flex-col justify-center space-y-3 mt-4">
+                    {/* Search Bar */}
+                    <div className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center space-x-2">
+                      <Search className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
+                      <div className="text-[10px] font-mono text-slate-300 w-full overflow-hidden whitespace-nowrap">
+                        <motion.span
+                          initial={{ width: 0 }}
+                          animate={step === 2 || step === 3 ? { width: "100%" } : { width: 0 }}
+                          transition={{ duration: 1.5, ease: "easeOut" }}
+                          className="inline-block border-r border-purple-400 pr-1"
+                        >
+                          sales today by country
+                        </motion.span>
+                      </div>
+                    </div>
+
+                    {/* Results list */}
+                    <div className="space-y-2">
+                      {[
+                        { flag: "🇿🇼", name: "Zimbabwe", val: "$4,250", count: "142 sales", delay: 0.4 },
+                        { flag: "🇿🇦", name: "South Africa", val: "$2,840", count: "94 sales", delay: 0.8 },
+                        { flag: "🇬🇧", name: "United Kingdom", val: "$1,200", count: "40 sales", delay: 1.2 },
+                      ].map((item, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: -15 }}
+                          animate={step === 3 ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 }}
+                          transition={{ duration: 0.4, delay: item.delay }}
+                          className="w-full bg-slate-900 border border-slate-800 hover:border-slate-700 p-2 rounded-lg flex items-center justify-between shadow-inner"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs">{item.flag}</span>
+                            <span className="text-[9px] font-semibold text-slate-300">{item.name}</span>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-[9px] font-black text-white">{item.val}</div>
+                            <div className="text-[7px] text-slate-500">{item.count}</div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <span className="text-[10px] text-purple-400 mt-2 flex items-center space-x-1">
+                    <Sparkles className="w-3 h-3 animate-spin" />
+                    <span>AI aggregating demographics...</span>
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Branding Footer */}
+            <div className="w-full text-center border-t border-slate-900 pt-2.5 mt-2 flex items-center justify-center space-x-1 shrink-0">
+              <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest">
+                Developed by
+              </span>
+              <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest">
+                #Openchains Technologies
+              </span>
             </div>
           </motion.div>
 
