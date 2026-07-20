@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Package, Printer, Database, LayoutDashboard, 
-  Clock, Wallet, Store, Bell, Users, MessageSquare, 
+import {
+  Package, Printer, Database, LayoutDashboard,
+  Clock, Wallet, Store, Bell, Users, MessageSquare,
   CreditCard, Camera, Bluetooth, ScanBarcode,
   Bot, Globe, Handshake, UserCheck, Car
 } from "lucide-react";
@@ -117,26 +117,13 @@ const features = [
     color: "from-blue-600 to-indigo-600",
   },
   {
-    title: "SuperAdmin AI Assistant",
+    title: "AI Assistant",
     desc: "Interact with your business data using voice or text for instant actionable insights.",
     icon: Bot,
     category: "ai-analytics",
     color: "from-fuchsia-500 to-purple-600",
   },
-  {
-    title: "Country Acquisition",
-    desc: "Dive deep into analytics with a dedicated Country Acquisition Dashboard.",
-    icon: Globe,
-    category: "ai-analytics",
-    color: "from-sky-400 to-blue-600",
-  },
-  {
-    title: "Reseller Management",
-    desc: "Manage your network, generate monthly earnings reports, and track merchant statistics.",
-    icon: Handshake,
-    category: "ecosystem-ops",
-    color: "from-teal-600 to-emerald-600",
-  },
+
   {
     title: "Visitor Management",
     desc: "Track registrations, manage subscriptions, and handle recurring payments effortlessly.",
@@ -145,11 +132,32 @@ const features = [
     color: "from-pink-500 to-rose-600",
   },
   {
-    title: "Vehicle Tracking",
-    desc: "Monitor your fleet and integrate vehicle tracking directly into your daily operations.",
-    icon: Car,
+    title: "Credit & Installment Payments",
+    desc: "Allow customers to buy on credit and pay in partial quantities (e.g. $5, $5) with full balance tracking.",
+    icon: CreditCard,
     category: "ecosystem-ops",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-blue-600 to-cyan-500",
+  },
+  {
+    title: "Composite & Recipe Production",
+    desc: "Build composite items like burgers and combos. Auto-deduct raw ingredients upon checkout.",
+    icon: Car,
+    category: "inventory-sync",
+    color: "from-amber-500 to-red-500",
+  },
+  {
+    title: "Weight & Volume Pricing",
+    desc: "Sell products dynamically computed by weight (kg, g) or liquid volume (liters, ml) with custom discounts.",
+    icon: Package,
+    category: "pos-hardware",
+    color: "from-purple-500 to-pink-500",
+  },
+  {
+    title: "Dead Stock & Product Rank AI",
+    desc: "Identify non-selling products, top 10 categories, product sales rank, and sales frequency with AI assistance.",
+    icon: Bot,
+    category: "ai-analytics",
+    color: "from-emerald-500 to-teal-600",
   },
 ];
 
@@ -167,7 +175,7 @@ export default function Features() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -175,7 +183,7 @@ export default function Features() {
           >
             Capabilities
           </motion.span>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -203,11 +211,10 @@ export default function Features() {
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`relative px-6 py-3 rounded-full text-xs md:text-sm font-bold tracking-tight transition-all duration-300 cursor-pointer ${
-                  isActive 
-                    ? "text-white" 
+                className={`relative px-6 py-3 rounded-full text-xs md:text-sm font-bold tracking-tight transition-all duration-300 cursor-pointer ${isActive
+                    ? "text-white"
                     : "text-muted-foreground hover:text-foreground"
-                }`}
+                  }`}
               >
                 {isActive && (
                   <motion.div
@@ -223,7 +230,7 @@ export default function Features() {
         </div>
 
         {/* Features Grid with Layout Animation */}
-        <motion.div 
+        <motion.div
           layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >

@@ -9,10 +9,10 @@ import Link from "next/link";
 export default function DownloadPage() {
 
   const windowsSteps = [
-    "Extract the downloaded .ZIP file",
-    "Open the extracted folder",
-    "Double-click mistpos.exe to launch",
-    "Right-click mistpos.exe and 'Pin to Taskbar' for easy access"
+    "Click 'Get from Microsoft Store' below",
+    "Select 'Install' or 'Get in Store app'",
+    "Launch Mistpos directly from your Start Menu",
+    "Enjoy automatic updates and verified secure installation"
   ];
 
   return (
@@ -54,7 +54,7 @@ export default function DownloadPage() {
               <div className="space-y-3 mb-10">
                 <div className="flex items-center space-x-3 text-sm text-muted-foreground">
                   <CheckCircle2 className="text-primary w-4 h-4" />
-                  <span>Version 2.0.4 (Latest)</span>
+                  <span>Available on Microsoft Store</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-muted-foreground">
                   <CheckCircle2 className="text-primary w-4 h-4" />
@@ -83,18 +83,15 @@ export default function DownloadPage() {
                 </div>
               </div>
 
-              <button 
-                onClick={() => {
-                  const link = document.createElement('a');
-                  link.href = '/Mistpos.zip';
-                  link.download = 'Mistpos.zip';
-                  link.click();
-                }}
+              <a 
+                href="https://apps.microsoft.com/detail/9NQWB481ZN8F?hl=en-us&gl=ZW&ocid=pdpshare"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full py-5 blue-gradient text-white rounded-2xl font-black text-lg shadow-2xl shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-3 cursor-pointer"
               >
-                <Download className="w-6 h-6" />
-                <span>Download .ZIP Now</span>
-              </button>
+                <Laptop className="w-6 h-6" />
+                <span>Get from Microsoft Store</span>
+              </a>
             </motion.div>
 
             {/* Android Option */}
